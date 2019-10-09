@@ -4,6 +4,6 @@
 
 ### Getting Started
 
-### Best Practices
-
 ### Executing our code
+
+### Best Practices
