@@ -45,6 +45,12 @@
         * use the `...` to navigate to `/venv/Scripts/python.exe`
 
 ### Executing our code
+* Jetbrains
+    * right click file and select option to `run` file
+* Terminal
+    * navigate to file and execute `python app.py` (substitute file name)
+    * you can add `#!/usr/bin/env python` to the top of the file and can exclude `python` from the above command
+
 
 ### Best Practices
 * [Zen of Python](https://scm.principal.com/projects/USISDOJO/repos/dojo-engineering/browse/engineering-culture/python-zen.md)
