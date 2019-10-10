@@ -53,4 +53,11 @@
 
 
 ### Best Practices
+* Avoid Classes and opt for stateless functions
+* Make all functions Single Responsibility
+* All functions have a return value if not stated and it is `None`
+* Always list dependencies in requirements and you can version lock them
+* App.py is the top file in your application and is at your project route
+* Always use virtual environments to isolate your project dependencies from all other projects
+* All private methods are technically public but function names should be appended with double underscores `def __my_function():`
 * [Zen of Python](https://scm.principal.com/projects/USISDOJO/repos/dojo-engineering/browse/engineering-culture/python-zen.md)
