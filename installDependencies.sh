@@ -67,12 +67,12 @@ function setupProxyVariables {
 
 function upgradePip {
     echo -e "${YELLOW}-----------Upgrading Python Pip-----------${WHITE}"
-    python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org requests  --upgrade pip
+    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org requests  --upgrade pip
 }
 
 
 function installDependencies {
-    echo -e "/nEnter ${GREEN}requirements${WHITE} to install from files."
+    echo -e "\nEnter ${GREEN}requirements${WHITE} to install requirement files."
     echo -e "Enter ${GREEN}name of dependency${WHITE} to install:"
 
     read INSTALL_DEPENDENCY
@@ -80,13 +80,15 @@ function installDependencies {
         exit 0
     elif [[ "$INSTALL_DEPENDENCY" == "requirements" ]] ; then
         echo -e "${YELLOW}-----------Installing requirements.txt-----------${WHITE}"
-        python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -uR requirements.txt
+        pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur requirements.txt
 
         echo -e "${YELLOW}-----------Installing test_requirements.txt-----------${WHITE}"
-        python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -uR test_requirements.txt
+        pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur test_requirements.txt
+    elif [[ -z "$INSTALL_DEPENDENCY" ]] ; then
+        exit 0
     else
         echo -e "${YELLOW}-----------Installing Dependency-----------${WHITE}"
-        python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $INSTALL_DEPENDENCY
+        python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $INSTALL_DEPENDENCY
     fi
 }
 
