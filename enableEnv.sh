@@ -6,7 +6,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 
 
-echo -e "${GREEN}Enter password for $USERNAME.${WHITE}"
+echo -e "Enter password for ${GREEN}$USERNAME:${WHITE}"
 
 read -s tempPass
 if [ -z "$tempPass" ]
@@ -23,7 +23,8 @@ export HTTPS_PROXY=http://${USERNAME}:${encodedPass}@pfgproxy.principal.com:80
 echo -e "${YELLOW}-----------Upgrading Python Pip-----------${WHITE}"
 python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org requests  --upgrade pip
 
-echo -e "${GREEN}Enter name of dependency to install.${WHITE}"
+
+echo -e "Enter ${GREEN}name of dependency${WHITE} to install:"
 
 read -s installDependency
 if [ -z "$installDependency" ]
