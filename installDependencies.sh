@@ -71,6 +71,15 @@ function upgradePip {
 }
 
 
+function installRequirements {
+    echo -e "${YELLOW}-----------Installing requirements.txt-----------${WHITE}"
+    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur requirements.txt
+
+    echo -e "${YELLOW}-----------Installing test_requirements.txt-----------${WHITE}"
+    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur test_requirements.txt
+}
+
+
 function installDependencies {
     echo -e "\nEnter ${GREEN}requirements${WHITE} to install requirement files."
     echo -e "Enter ${GREEN}name of dependency${WHITE} to install:"
@@ -79,11 +88,7 @@ function installDependencies {
     if [[ -z "$INSTALL_DEPENDENCY" ]] ; then
         exit 0
     elif [[ "$INSTALL_DEPENDENCY" == "requirements" ]] ; then
-        echo -e "${YELLOW}-----------Installing requirements.txt-----------${WHITE}"
-        python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur requirements.txt
-
-        echo -e "${YELLOW}-----------Installing test_requirements.txt-----------${WHITE}"
-        python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur test_requirements.txt
+        installRequirements
     elif [[ -z "$INSTALL_DEPENDENCY" ]] ; then
         exit 0
     else
