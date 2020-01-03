@@ -24,7 +24,7 @@ echo -e "${YELLOW}-----------Upgrading Python Pip-----------${WHITE}"
 python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org requests  --upgrade pip
 
 
-echo -e "Enter ${GREEN}name of dependency${WHITE} to install:"
+echo -e "\nEnter ${GREEN}name of dependency${WHITE} to install:"
 
 read -s installDependency
 if [ -z "$installDependency" ]
