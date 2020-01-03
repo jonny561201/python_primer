@@ -1,37 +1,53 @@
 #!/bin/bash
 
-
 WHITE='\033[0m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 
 
-echo -e "Enter password for ${GREEN}$USERNAME:${WHITE}"
 
-read -s tempPass
-if [ -z "$tempPass" ]
-then
-    exit 0
-fi
+function checkPythonVersion {
+    PYTHON_VERSION=$(python --version)
+    if [[ $PYTHON_VERSION == "Python 3"* ]] ;
+    then
+        echo -e "${GREEN}Python 3 installed!${WHITE}"
+    fi
+}
 
-encodedPass=$(echo -ne $tempPass | xxd -plain | tr -d '\n' | sed 's/\(..\)/%\1/g')
+function setupProxyVariables {
+    echo -e "Enter password for ${GREEN}$USERNAME:${WHITE}"
 
-export HTTP_PROXY=http://${USERNAME}:${encodedPass}@pfgproxy.principal.com:80
-export HTTPS_PROXY=http://${USERNAME}:${encodedPass}@pfgproxy.principal.com:80
+    read -s TEMP_PASS
+    if [ -z "$TEMP_PASS" ]
+    then
+        exit 0
+    fi
 
-#upgrade pip
-echo -e "${YELLOW}-----------Upgrading Python Pip-----------${WHITE}"
-python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org requests  --upgrade pip
+    ENCODED_PASS=$(echo -ne $TEMP_PASS | xxd -plain | tr -d '\n' | sed 's/\(..\)/%\1/g')
+    export HTTP_PROXY=http://${USERNAME}:${ENCODED_PASS}@pfgproxy.principal.com:80
+    export HTTPS_PROXY=http://${USERNAME}:${ENCODED_PASS}@pfgproxy.principal.com:80
+}
 
 
-echo -e "\nEnter ${GREEN}name of dependency${WHITE} to install:"
+function upgradePip {
+    echo -e "${YELLOW}-----------Upgrading Python Pip-----------${WHITE}"
+    python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org requests  --upgrade pip
+}
 
-read -s installDependency
-if [ -z "$installDependency" ]
-then
-    exit 0
-fi
+function installDependencies {
+    echo -e "\nEnter ${GREEN}name of dependency${WHITE} to install:"
 
-#install dependency
-echo -e "${YELLOW}-----------Installing Dependency-----------${WHITE}"
-python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $installDependency
+    read INSTALL_DEPENDENCY
+    if [ -z "$INSTALL_DEPENDENCY" ]
+    then
+        exit 0
+    fi
+
+    echo -e "${YELLOW}-----------Installing Dependency-----------${WHITE}"
+    python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $INSTALL_DEPENDENCY
+}
+
+checkPythonVersion
+setupProxyVariables
+upgradePip
+installDependencies
