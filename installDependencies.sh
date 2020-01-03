@@ -7,6 +7,7 @@ RED='\033[0;31m'
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DEV_TOOLS_DIR=/R/DevTools/Scripts
+PROXY_SERVER="stupid.stupid.com:80"
 
 
 function uninstallPython2 {
@@ -29,15 +30,12 @@ function installPython3 {
 
 function checkPythonVersion {
     PYTHON_VERSION=$(python --version)
-    if [[ $PYTHON_VERSION == "Python 2"* ]]
-    then
+    if [[ $PYTHON_VERSION == "Python 3"* ]] ; then
         echo -e "${GREEN}Python 3 installed!${WHITE}"
-    elif [[ $PYTHON_VERSION == "Python 3"* ]]
-    then
-        echo -e "${RED}Python 2 installed. ${WHITE}Do you want to uninstall Python 2 and install Python 3(y/n)?"
+    elif [[ $PYTHON_VERSION == "Python 2"* ]] ; then
+        echo -e "${RED}Python 2 installed. ${WHITE}Do you want to uninstall Python 2 and install Python 3 (y/n)?"
         read UNINSTALL_ANSWER
-        if [[ $UNINSTALL_ANSWER == "y" ]]
-        then
+        if [[ $UNINSTALL_ANSWER == "y" ]] ; then
             uninstallPython2
             installPython3
         fi
@@ -49,14 +47,13 @@ function setupProxyVariables {
     echo -e "Enter password for ${GREEN}$USERNAME:${WHITE}"
 
     read -s TEMP_PASS
-    if [ -z "$TEMP_PASS" ]
-    then
+    if [ -z "$TEMP_PASS" ] ; then
         exit 0
     fi
 
     ENCODED_PASS=$(echo -ne $TEMP_PASS | xxd -plain | tr -d '\n' | sed 's/\(..\)/%\1/g')
-    export HTTP_PROXY=http://${USERNAME}:${ENCODED_PASS}@pfgproxy.principal.com:80
-    export HTTPS_PROXY=http://${USERNAME}:${ENCODED_PASS}@pfgproxy.principal.com:80
+    export HTTP_PROXY=http://${USERNAME}:${ENCODED_PASS}@${PROXY_SERVER}
+    export HTTPS_PROXY=http://${USERNAME}:${ENCODED_PASS}@${PROXY_SERVER}
 }
 
 
@@ -70,8 +67,7 @@ function installDependencies {
     echo -e "\nEnter ${GREEN}name of dependency${WHITE} to install:"
 
     read INSTALL_DEPENDENCY
-    if [ -z "$INSTALL_DEPENDENCY" ]
-    then
+    if [ -z "$INSTALL_DEPENDENCY" ] ; then
         exit 0
     fi
 
