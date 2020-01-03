@@ -55,7 +55,7 @@ function setupProxyVariables {
     echo -e "Enter password for ${GREEN}$USERNAME:${WHITE}"
 
     read -s TEMP_PASS
-    if [ -z "$TEMP_PASS" ] ; then
+    if [[ -z "$TEMP_PASS" ]] ; then
         exit 0
     fi
 
@@ -76,11 +76,14 @@ function installDependencies {
     echo -e "Enter ${GREEN}name of dependency${WHITE} to install:"
 
     read INSTALL_DEPENDENCY
-    if [ -z "$INSTALL_DEPENDENCY" ] ; then
+    if [[ -z "$INSTALL_DEPENDENCY" ]] ; then
         exit 0
-    elif [ "$INSTALL_DEPENDENCY" == "requirements" ] ; then
+    elif [[ "$INSTALL_DEPENDENCY" == "requirements" ]] ; then
         echo -e "${YELLOW}-----------Installing requirements.txt-----------${WHITE}"
         python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -uR requirements.txt
+
+        echo -e "${YELLOW}-----------Installing test_requirements.txt-----------${WHITE}"
+        python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -uR test_requirements.txt
     else
         echo -e "${YELLOW}-----------Installing Dependency-----------${WHITE}"
         python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $INSTALL_DEPENDENCY
@@ -89,6 +92,6 @@ function installDependencies {
 
 
 checkPythonVersion
-#setupProxyVariables
-#upgradePip
-#installDependencies
+setupProxyVariables
+upgradePip
+installDependencies
