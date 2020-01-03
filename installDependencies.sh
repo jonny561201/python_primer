@@ -29,7 +29,7 @@ function installPython3 {
 
 
 function checkPythonVersion {
-    PYTHON_VERSION=$(python --version)
+    PYTHON_VERSION=$(python --version 2>/dev/null)
     if [[ $PYTHON_VERSION == "Python 3"* ]] ; then
         echo -e "${GREEN}Python 3 installed!${WHITE}"
     elif [[ $PYTHON_VERSION == "Python 2"* ]] ; then
@@ -38,6 +38,14 @@ function checkPythonVersion {
         if [[ $UNINSTALL_ANSWER == "y" ]] ; then
             uninstallPython2
             installPython3
+        fi
+    else
+        echo -e "${YELLOW}Do you want to install Python 3 (y/n)${WHITE}?"
+        read INSTALL_PYTHON
+        if [[ $INSTALL_PYTHON == "y" ]] ; then
+            installPython3
+        else
+            exit 0
         fi
     fi
 }
@@ -64,19 +72,23 @@ function upgradePip {
 
 
 function installDependencies {
-    echo -e "\nEnter ${GREEN}name of dependency${WHITE} to install:"
+    echo -e "/nEnter ${GREEN}requirements${WHITE} to install from files."
+    echo -e "Enter ${GREEN}name of dependency${WHITE} to install:"
 
     read INSTALL_DEPENDENCY
     if [ -z "$INSTALL_DEPENDENCY" ] ; then
         exit 0
+    elif [ "$INSTALL_DEPENDENCY" == "requirements" ] ; then
+        echo -e "${YELLOW}-----------Installing requirements.txt-----------${WHITE}"
+        python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -uR requirements.txt
+    else
+        echo -e "${YELLOW}-----------Installing Dependency-----------${WHITE}"
+        python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $INSTALL_DEPENDENCY
     fi
-
-    echo -e "${YELLOW}-----------Installing Dependency-----------${WHITE}"
-    python -m pip install --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $INSTALL_DEPENDENCY
 }
 
 
 checkPythonVersion
-setupProxyVariables
-upgradePip
-installDependencies
+#setupProxyVariables
+#upgradePip
+#installDependencies
