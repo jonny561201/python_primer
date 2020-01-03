@@ -80,10 +80,10 @@ function installDependencies {
         exit 0
     elif [[ "$INSTALL_DEPENDENCY" == "requirements" ]] ; then
         echo -e "${YELLOW}-----------Installing requirements.txt-----------${WHITE}"
-        pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur requirements.txt
+        python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur requirements.txt
 
         echo -e "${YELLOW}-----------Installing test_requirements.txt-----------${WHITE}"
-        pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur test_requirements.txt
+        python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur test_requirements.txt
     elif [[ -z "$INSTALL_DEPENDENCY" ]] ; then
         exit 0
     else
