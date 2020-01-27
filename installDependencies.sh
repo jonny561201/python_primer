@@ -24,16 +24,16 @@ function setupProxyVariables {
 
 function upgradePip {
     echo -e "${YELLOW}-----------Upgrading Python Pip-----------${WHITE}"
-    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org requests  --upgrade pip
+    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org requests  --upgrade pip  || { echo 'authentication failed' ; exit 1; }
 }
 
 
 function installRequirements {
     echo -e "${YELLOW}-----------Installing requirements.txt-----------${WHITE}"
-    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur requirements.txt
+    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur requirements.txt || { echo 'authentication failed' ; exit 1; }
 
     echo -e "${YELLOW}-----------Installing test_requirements.txt-----------${WHITE}"
-    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur test_requirements.txt
+    python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org -Ur test_requirements.txt || { echo 'authentication failed' ; exit 1; }
 }
 
 
@@ -50,7 +50,7 @@ function installDependencies {
         exit 0
     else
         echo -e "${YELLOW}-----------Installing Dependency-----------${WHITE}"
-        python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $INSTALL_DEPENDENCY
+        python -m pip install --retries 0 --proxy=$HTTPS_PROXY --trusted-host pypi.org --trusted-host files.pythonhosted.org --trusted-host pypi.python.org $INSTALL_DEPENDENCY || { echo 'authentication failed' ; exit 1; }
     fi
 }
 
