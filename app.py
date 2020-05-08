@@ -1,15 +1,7 @@
 #!/usr/bin/env python
-from flask import Flask
 
-from utilities.fizz_buzz import fizz_buzz
-
-app = Flask(__name__)
+from svc.manager import create_app
 
 
-@app.route('/fizzBuzz/<num>')
-def app_test(num):
-    results = fizz_buzz(int(num))
-    return results
-
-
+app = create_app(__name__)
 app.run(debug=True)

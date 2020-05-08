@@ -1,4 +1,4 @@
-from utilities.fizz_buzz import fizz_buzz
+from svc.utilities.fizz_buzz import fizz_buzz
 
 
 def test_fizz_buzz__should_return_fizz_when_divide_by_three():
