@@ -17,5 +17,6 @@ def test_fizz_buzz__should_return_fizz_buzz_when_divide_by_fifteen():
 
 
 def test_fizz_buzz__should_return_nothing_when_divide_by_two():
-    actual = fizz_buzz(2)
-    assert actual == ''
+    num = 2
+    actual = fizz_buzz(num)
+    assert actual == num
