@@ -9,9 +9,7 @@ FIZZ_BUZZ_BLUEPRINT = Blueprint('fizz_buzz', __name__)
 @FIZZ_BUZZ_BLUEPRINT.route('/fizzBuzz/<num>')
 def app_test(num):
     try:
-        number = int(num)
-        results = fizz_buzz(number)
+        results = fizz_buzz(int(num))
         return Response(results, status=200)
     except ValueError as ex:
-        print(ex)
         return Response(ex, status=400)
