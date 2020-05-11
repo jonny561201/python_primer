@@ -9,6 +9,6 @@ FIZZ_BUZZ_BLUEPRINT = Blueprint('fizz_buzz', __name__)
 def app_test(num):
     try:
         results = fizz_buzz(int(num))
-        return Response(results, status=200)
+        return Response(str(results), status=200)
     except ValueError as ex:
         return Response(ex, status=400)
