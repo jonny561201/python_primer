@@ -2,7 +2,6 @@ from flask import Blueprint, Response
 
 from svc.utilities.fizz_buzz import fizz_buzz
 
-
 FIZZ_BUZZ_BLUEPRINT = Blueprint('fizz_buzz', __name__)
 
 
